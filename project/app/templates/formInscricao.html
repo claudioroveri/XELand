@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilo.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/programacao.css' %}" />
+
+</head>
+
+<body>
+
+    <div class="col-6 m-auto pt-2 pb-2 text-center titulo">
+       INSCREVA-SE
+    </div>
+
+
+    <div class="col-6 pt-4 pb-2 offset-3 caixa">
+        
+        <form name="form" id="form" method="post"  action="/cadastro/Inscricao/add/">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 titulo_evento">
+                        {% if evento.tipo.descricao == "Palestra" %}
+                            <div class="tipo_evento" style="background-color: blue;"> {{evento.tipo.descricao}} </div>
+                        {% elif evento.tipo.descricao == "Abertura" %}
+                            <div class="tipo_evento" style="background-color: red;"> {{evento.tipo.descricao}} </div>
+                        {% else %}
+                            <div class="tipo_evento" style="background-color: lightgreen;color:black"> {{evento.tipo.descricao}} </div>
+                        {% endif %}
+                        <label>{{evento.titulo}}</label>
+                        <input type="hidden" name="evento" value="{{evento.id}}" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        Nome: <br> 
+                        {{form.nome}}
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        Email: <br> 
+                        {{form.email}}
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        Idade: <br> 
+                        {{form.idade}}
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12 pt-3 pb-2 text-center">
+                        <input type="submit" class="btn btn-success" value="Salvar">
+                        <a href="/Programacao/" class="btn btn-success">Voltar</a>
+                    </div>
+                </div>
+            </div>
+    
+        </form>
+    </div>
+</body>
+</html>

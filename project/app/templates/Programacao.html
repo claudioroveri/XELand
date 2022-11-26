@@ -29,8 +29,9 @@
                     <div class="titulo_evento"> {{item.titulo}} ( {{item.vagas}} vagas ) </div>
                     <div class="palestrante_evento"> {{item.palestrante}} </div>
                     <div class="descricao_evento"> {{item.descricao}} </div>
-                    <div class="horario_evento"> Horário:  {{item.horario_ini}} às {{item.horario_fim}}</div>
+                    <div class="horario_evento"> Horário:  {{item.horario_ini|date:"H:i"}} às {{item.horario_fim|date:"H:i"}}</div>
                     <div class="local_evento">Local: {{item.local}}</div>
+                    <div class="col-12 inscricao_evento text-center pb-2 pt-2"><a class="btn btn-success" href="/cadastro/Inscricao/{{item.id}}">Increva-se</a></div>
                 </div>
                 <hr>
                 {% endfor %}  

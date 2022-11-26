@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import ProgramacaoList, TipoEventoForm, EventoForm, PalestranteList, PalestranteEdit,PalestranteUpdate, PalestranteDelete, PalestranteForm, PalestranteAdd, LocalForm, LocalAdd, EventoAdd, EventoList, EventoDelete, EventoEdit, EventoUpdate, LocalList
+from app.views import ProgramacaoList, TipoEventoForm, InscricaoForm, EventoForm, PalestranteList, PalestranteEdit,PalestranteUpdate, PalestranteDelete, PalestranteForm, PalestranteAdd, LocalForm, LocalAdd, InscricaoAdd, EventoAdd, EventoList, EventoDelete, EventoEdit, EventoUpdate, LocalList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,10 +24,12 @@ urlpatterns = [
     path('cadastro/Evento/', EventoForm, name='EventoForm'),
     path('cadastro/Palestrante/', PalestranteForm, name='PalestranteForm'),
     path('cadastro/Local/', LocalForm, name='LocalForm'),
+    path('cadastro/Inscricao/<int:pk>', InscricaoForm, name='InscricaoForm'),
     #Formulários (inserções)
     path('cadastro/Evento/add/', EventoAdd, name='EventoAdd'),
     path('cadastro/Local/add/', LocalAdd, name='LocalAdd'),
     path('cadastro/Palestrante/add/', PalestranteAdd, name='PalestranteAdd'),
+    path('cadastro/Inscricao/add/', InscricaoAdd, name='InscricaoAdd'),
     #Formulários (exibição para edição)
     path('cadastro/Evento/<int:pk>', EventoEdit, name='EventoEdit'),
     path('cadastro/Palestrante/<int:pk>', PalestranteEdit, name='PalestranteEdit'),

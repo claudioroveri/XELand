@@ -14,3 +14,4 @@ class Evento(models.Model):
     palestrante = models.ForeignKey(Palestrante, on_delete=models.PROTECT)
     tipo = models.ForeignKey(TipoEvento, on_delete=models.PROTECT)
     local = models.ForeignKey(Local, on_delete=models.PROTECT, default=1)
+    

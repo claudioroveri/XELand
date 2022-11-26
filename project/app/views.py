@@ -3,10 +3,12 @@ from app.controller.TipoEventoBean import TipoEventoBean
 from app.controller.EventoBean import EventoBean
 from app.controller.PalestranteBean import PalestranteBean
 from app.controller.LocalBean import LocalBean
+from app.controller.InscritoBean import InscritoBean
 from app.model.Palestrante import Palestrante
 from app.model.TipoEvento import TipoEvento
 from app.model.Local import Local
 from app.model.Evento import Evento
+from app.model.Inscrito import Inscrito
 import requests
 
 
@@ -34,6 +36,12 @@ def LocalForm(request):
      data = {}
      data['form'] = LocalBean
      return render(request, 'formLocal.html', data)
+
+def InscricaoForm(request, pk):
+     data = {}
+     data['form'] = InscritoBean
+     data['evento'] = Evento.objects.get(pk=pk)
+     return render(request, 'formInscricao.html', data)
 
 # Views de criação de registros
 def EventoAdd(request):
@@ -65,21 +73,34 @@ def PalestranteAdd(request):
     else:
         print(form.errors)
 
+# Views de criação de registros
+def InscricaoAdd(request):
+    #Validar ainda quando usuario tenta se inscrever mais de uma vez !!!
+    form = InscritoBean(request.POST or None)
+
+    if form.is_valid():
+        form.save()
+        return redirect('ProgramacaoList')
+    else:
+        print(form.errors)
+
 # Views de listagens
 def ProgramacaoList(request):
         lista = []
         dados = Evento.objects.all()
 
         for item in dados:
+            inscritos = Inscrito.objects.filter(evento=item.id).count()
             linha = {}
             linha['titulo'] = item.titulo
             linha['descricao'] = item.descricao
             linha['palestrante'] = item.palestrante.nome
             linha['horario_ini'] = item.horario_inicio
             linha['horario_fim'] = item.horario_fim
-            linha['vagas'] = item.vagas
+            linha['vagas'] = item.vagas - inscritos
             linha['local'] = item.local.sigla
             linha['tipo'] = item.tipo.descricao
+            linha['id'] = item.id
             lista.append(linha) # só exibe o ultimo
 
         data = {}
@@ -93,14 +114,14 @@ def EventoList(request):
 
     return render(request, 'listaEvento.html', data)
 
-# Views de listagens
+
 def LocalList(request):
     data = {}
     data['lista'] = Local.objects.all()
 
     return render(request, 'listaLocal.html', data)
 
-# Views de listagens
+
 def PalestranteList(request):
     data = {}
     data['lista'] = Palestrante.objects.all()
