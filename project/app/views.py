@@ -66,7 +66,7 @@ def PalestranteAdd(request):
         print(form.errors)
 
 # Views de listagens
-def EventoList(request):
+def EventoList(request): 
     data = {}
     data['lista'] = Evento.objects.all()
 
