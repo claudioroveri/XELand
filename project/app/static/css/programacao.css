@@ -1,0 +1,69 @@
+.caixa_prog {
+    border: 1px solid green;
+    border-radius: 10px;
+    background-color: rgba(0,230,0,0.1);
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.titulo {
+    background-color: green;
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+
+}
+
+.tipo_evento {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    font-size: 1.05em;
+    border-radius: 10px;
+    width: 120px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.evento {
+    width: 100vw;
+    margin-top: 1vh;
+}
+
+.titulo_evento {
+    font-size: 1.3em;
+    font-weight: bold;
+    font-style: italic;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin-top: 1vh;
+}
+
+.descricao_evento {
+    font-style: italic;
+    text-align: center;
+    font-size: 1.1em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.horario_evento {
+    font-weight: bold;
+    text-align: center;
+}
+
+.palestrante_evento {
+    font-weight: bold;
+    font-size: 1.07em;
+    text-align: center;
+}
+
+.local_evento {
+    font-weight: bold;
+    font-size: 1.07em;
+    text-align: center;
+}

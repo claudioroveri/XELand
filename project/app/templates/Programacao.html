@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-9">
+        <title>Cadastro de Eventos</title>
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/programacao.css' %}" />
+    </head>
+    <body>
+        <br>
+        <div class="container">
+            <div class="row col-8 caixa_prog">
+                <div class="col-12 titulo">
+                    <span>SEGUNDA-FEIRA (01/01/2023)</span>
+                </div>
+                {% for item in lista %}  
+                <div class="row evento">               
+                    <div class="col-12 text-center">
+                        {% if item.tipo == "Palestra" %}
+                            <div class="tipo_evento" style="background-color: blue;"> {{item.tipo}} </div>
+                        {% elif item.tipo == "Abertura" %}
+                            <div class="tipo_evento" style="background-color: red;"> {{item.tipo}} </div>
+                        {% else %}
+                            <div class="tipo_evento" style="background-color: lightgreen;color:black"> {{item.tipo}} </div>
+                        {% endif %}
+                    </div>
+                    <div class="titulo_evento"> {{item.titulo}} ( {{item.vagas}} vagas ) </div>
+                    <div class="palestrante_evento"> {{item.palestrante}} </div>
+                    <div class="descricao_evento"> {{item.descricao}} </div>
+                    <div class="horario_evento"> Horário:  {{item.horario_ini}} às {{item.horario_fim}}</div>
+                    <div class="local_evento">Local: {{item.local}}</div>
+                </div>
+                <hr>
+                {% endfor %}  
+               
+            </div>
+            
+        </div>
+    </body>
+</html>

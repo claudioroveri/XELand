@@ -66,6 +66,27 @@ def PalestranteAdd(request):
         print(form.errors)
 
 # Views de listagens
+def ProgramacaoList(request):
+        lista = []
+        dados = Evento.objects.all()
+
+        for item in dados:
+            linha = {}
+            linha['titulo'] = item.titulo
+            linha['descricao'] = item.descricao
+            linha['palestrante'] = item.palestrante.nome
+            linha['horario_ini'] = item.horario_inicio
+            linha['horario_fim'] = item.horario_fim
+            linha['vagas'] = item.vagas
+            linha['local'] = item.local.sigla
+            linha['tipo'] = item.tipo.descricao
+            lista.append(linha) # só exibe o ultimo
+
+        data = {}
+        data['lista'] = lista
+        
+        return render(request, 'Programacao.html', data)
+
 def EventoList(request): 
     data = {}
     data['lista'] = Evento.objects.all()
