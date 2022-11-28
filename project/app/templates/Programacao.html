@@ -23,21 +23,35 @@
                         {% elif item.tipo == "Abertura" %}
                             <div class="tipo_evento" style="background-color: red;"> {{item.tipo}} </div>
                         {% else %}
-                            <div class="tipo_evento" style="background-color: lightgreen;color:black"> {{item.tipo}} </div>
+                            <div class="tipo_evento" style="background-color: yellow;color:black"> {{item.tipo}} </div>
                         {% endif %}
                     </div>
-                    <div class="titulo_evento"> {{item.titulo}} ( {{item.vagas}} vagas ) </div>
+                    {% if item.vagas > 0 %}
+                        <div class="titulo_evento"> {{item.titulo}} ( {{item.vagas}} vagas ) </div>
+                    {%else%}
+                        <div class="titulo_evento"> {{item.titulo}} ( Vagas esgotadas ) </div>
+                    {% endif %}
                     <div class="palestrante_evento"> {{item.palestrante}} </div>
                     <div class="descricao_evento"> {{item.descricao}} </div>
                     <div class="horario_evento"> Horário:  {{item.horario_ini|date:"H:i"}} às {{item.horario_fim|date:"H:i"}}</div>
                     <div class="local_evento">Local: {{item.local}}</div>
-                    <div class="col-12 inscricao_evento text-center pb-2 pt-2"><a class="btn btn-success" href="/cadastro/Inscricao/{{item.id}}">Increva-se</a></div>
+                    {% if item.vagas > 0 %}
+                    
+                        <div class="col-12 inscricao_evento text-center pb-2 pt-2"><a class="btn btn-success" href="/cadastro/Inscricao/{{item.id}}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+                                <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+                            </svg>
+                            <br>
+                            Inscreva-se
+
+                        </a></div>
+                    {% endif %}
                 </div>
                 <hr>
-                {% endfor %}  
-               
+                {% endfor %}                
             </div>
-            
         </div>
     </body>
 </html>

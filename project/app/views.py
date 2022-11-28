@@ -114,6 +114,13 @@ def EventoList(request):
 
     return render(request, 'listaEvento.html', data)
 
+def InscritoList(request, pk): 
+    data = {}
+    data['lista'] = Inscrito.objects.filter(evento=pk).all()
+    data['evento'] = Evento.objects.filter(id=pk).get()
+
+    return render(request, 'listaInscrito.html', data)
+
 
 def LocalList(request):
     data = {}
