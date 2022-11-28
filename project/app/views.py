@@ -87,7 +87,7 @@ def InscricaoAdd(request):
 # Views de listagens
 def ProgramacaoList(request):
         lista = []
-        dados = Evento.objects.all()
+        dados = Evento.objects.filter(ativo=True).all()
 
         for item in dados:
             inscritos = Inscrito.objects.filter(evento=item.id).count()
