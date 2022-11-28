@@ -15,7 +15,7 @@ import requests
 # Create your views here.
 def Principal(request):
     return render(request, 'index.html', {})
-    
+
 # Carregamento dos forms
 def TipoEventoForm(request):
     data = {}
@@ -144,13 +144,13 @@ def EventoDelete(request, pk):
     data.delete()
     return redirect('/Evento/')
 
-#Views de deleção de registros
+
 def PalestranteDelete(request, pk):
     data = Palestrante.objects.get(pk=pk)
     data.delete()
     return redirect('/Palestrante/')
 
-# View de edição de registros
+# Views de telas de edição
 def EventoEdit(request, pk):
     data = {}
     data['item'] = Evento.objects.get(pk=pk)
@@ -169,6 +169,7 @@ def PalestranteEdit(request, pk):
 
     return render(request, 'formPalestrante.html', data)
 
+#View de operação de edição
 def EventoUpdate(request, pk):
     data = {}
     data['db'] = Evento.objects.get(pk=pk)

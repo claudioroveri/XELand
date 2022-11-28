@@ -22,20 +22,20 @@
 
             {% for item in lista %}
             {% if item.tipo == "Palestra" %}
-            <div style="width:5px;background-color: blue;"> </div>
+                <div style="z-index:1;width:5px;background-color: blue;"> </div>
             {% elif item.tipo == "Abertura" %}
-            <div style="width:5px;background-color: red;"> </div>
+                <div style="z-index:1;width:5px;background-color: red;"> </div>
             {% else %}
-            <div style="width:5px;background-color: yellow;color:black"> </div>
+                <div style="z-index:1;width:5px;background-color: yellow;color:black"> </div>
             {% endif %}
             <div class="row evento">
                 <div class="col-12 text-center">
                     {% if item.tipo == "Palestra" %}
-                    <div class="tipo_evento" style="background-color: blue;"> {{item.tipo}} </div>
+                        <div class="tipo_evento" style="background-color: blue;"> {{item.tipo}} </div>
                     {% elif item.tipo == "Abertura" %}
-                    <div class="tipo_evento" style="background-color: red;"> {{item.tipo}} </div>
+                        <div class="tipo_evento" style="background-color: red;"> {{item.tipo}} </div>
                     {% else %}
-                    <div class="tipo_evento" style="background-color: yellow;color:black">{{item.tipo}} </div>
+                        <div class="tipo_evento" style="background-color: yellow;color:black">{{item.tipo}} </div>
                     {% endif %}
                 </div>
                 {% if item.vagas > 0 %}
