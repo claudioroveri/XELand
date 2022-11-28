@@ -13,6 +13,9 @@ import requests
 
 
 # Create your views here.
+def Principal(request):
+    return render(request, 'index.html', {})
+    
 # Carregamento dos forms
 def TipoEventoForm(request):
     data = {}

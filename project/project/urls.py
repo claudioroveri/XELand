@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import ProgramacaoList, TipoEventoForm, InscricaoForm, EventoForm, InscritoList, PalestranteList, PalestranteEdit,PalestranteUpdate, PalestranteDelete, PalestranteForm, PalestranteAdd, LocalForm, LocalAdd, InscricaoAdd, EventoAdd, EventoList, EventoDelete, EventoEdit, EventoUpdate, LocalList
+from app.views import Principal, ProgramacaoList, TipoEventoForm, InscricaoForm, EventoForm, InscritoList, PalestranteList, PalestranteEdit,PalestranteUpdate, PalestranteDelete, PalestranteForm, PalestranteAdd, LocalForm, LocalAdd, InscricaoAdd, EventoAdd, EventoList, EventoDelete, EventoEdit, EventoUpdate, LocalList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', Principal, name='Principal'),
     #Formulários (exibição)
     path('cadastro/TipoEvento/', TipoEventoForm, name='TipoEventoForm'),
     path('cadastro/Evento/', EventoForm, name='EventoForm'),
