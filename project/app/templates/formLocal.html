@@ -19,7 +19,7 @@
 
     <div class="col-6 pt-4 pb-2 offset-3 caixa">
         
-        <form name="form" id="form" method="post"  action="{% if item %}/update/{{item.id}}/{%else%}/cadastro/Local/add/{% endif %}">
+        <form name="form" id="form" method="post"  action="{% if item %}/cadastro/Local/update/{{item.id}}{%else%}/cadastro/Local/add/{% endif %}">
             {% csrf_token %}
             <div class="form-group">
                 <div class="row">

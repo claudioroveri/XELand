@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import Principal, ProgramacaoList, TipoEventoForm, InscricaoForm, EventoForm, InscritoList, PalestranteList, PalestranteEdit,PalestranteUpdate, PalestranteDelete, PalestranteForm, PalestranteAdd, LocalForm, LocalAdd, InscricaoAdd, EventoAdd, EventoList, EventoDelete, EventoEdit, EventoUpdate, LocalList
+from app.views import Principal, ProgramacaoList, TipoEventoForm, InscricaoForm, EventoForm, InscritoList, PalestranteList, PalestranteEdit,PalestranteUpdate, PalestranteDelete, PalestranteForm, PalestranteAdd, LocalForm, LocalAdd, LocalEdit, LocalUpdate, InscricaoAdd, EventoAdd, EventoList, EventoDelete, EventoEdit, EventoUpdate, LocalList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,12 +34,14 @@ urlpatterns = [
     #Formulários (exibição para edição)
     path('cadastro/Evento/<int:pk>', EventoEdit, name='EventoEdit'),
     path('cadastro/Palestrante/<int:pk>', PalestranteEdit, name='PalestranteEdit'),
+    path('cadastro/Local/<int:pk>', LocalEdit, name='LocalEdit'),
     #Formulários (exclusões)
     path('cadastro/Evento/delete/<int:pk>', EventoDelete, name='EventoDelete'),
     path('cadastro/Palestrante/delete/<int:pk>', PalestranteDelete, name='PalestranteDelete'),
     #Formulários (edição)
     path('cadastro/Evento/update/<int:pk>', EventoUpdate, name='EventoUpdate'),
     path('cadastro/Palestrante/update/<int:pk>', PalestranteUpdate, name='PalestranteUpdate'),
+    path('cadastro/Local/update/<int:pk>', LocalUpdate, name='LocalUpdate'),
     #Listagens
     path('Evento/', EventoList, name='EventoList'),
     path('Palestrante/', PalestranteList, name='PalestranteList'),

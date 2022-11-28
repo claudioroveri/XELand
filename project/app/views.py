@@ -169,6 +169,13 @@ def PalestranteEdit(request, pk):
 
     return render(request, 'formPalestrante.html', data)
 
+def LocalEdit(request, pk):
+    data = {}
+    data['item'] = Local.objects.get(pk=pk)
+    data['form'] = LocalBean(instance=data['item'])
+
+    return render(request, 'formLocal.html', data)
+
 #View de operação de edição
 def EventoUpdate(request, pk):
     data = {}
@@ -187,6 +194,16 @@ def PalestranteUpdate(request, pk):
     if form.is_valid():
         form.save()
         return redirect('/Palestrante/')
+    else:
+        print(form.errors)
+
+def LocalUpdate(request, pk):
+    data = {}
+    data['db'] = Local.objects.get(pk=pk)
+    form = LocalBean(request.POST or None, instance=data['db'])
+    if form.is_valid():
+        form.save()
+        return redirect('/Local/')
     else:
         print(form.errors)
 
