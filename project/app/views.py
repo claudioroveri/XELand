@@ -12,7 +12,7 @@ from app.model.Inscrito import Inscrito
 import requests
 
 
-# Create your views here.
+# View principal
 def Principal(request):
     return render(request, 'index.html', {})
 
@@ -144,7 +144,7 @@ def EventoDelete(request, pk):
     data.delete()
     return redirect('/Evento/')
 
-#Views de deleção de registros
+
 def InscritoDelete(request, pk):
     data = Inscrito.objects.get(pk=pk)
     data.delete()
@@ -212,5 +212,4 @@ def LocalUpdate(request, pk):
         return redirect('/Local/')
     else:
         print(form.errors)
-
 
