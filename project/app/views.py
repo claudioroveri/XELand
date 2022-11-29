@@ -144,6 +144,12 @@ def EventoDelete(request, pk):
     data.delete()
     return redirect('/Evento/')
 
+#Views de deleção de registros
+def InscritoDelete(request, pk):
+    data = Inscrito.objects.get(pk=pk)
+    data.delete()
+    return redirect('/Evento/')
+
 
 def PalestranteDelete(request, pk):
     data = Palestrante.objects.get(pk=pk)

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import Principal, ProgramacaoList, TipoEventoForm, InscricaoForm, EventoForm, InscritoList, PalestranteList, PalestranteEdit,PalestranteUpdate, PalestranteDelete, PalestranteForm, PalestranteAdd, LocalForm, LocalAdd, LocalEdit, LocalUpdate, InscricaoAdd, EventoAdd, EventoList, EventoDelete, EventoEdit, EventoUpdate, LocalList
+from app.views import Principal, ProgramacaoList, TipoEventoForm, InscricaoForm, EventoForm, InscritoList, InscritoDelete, PalestranteList, PalestranteEdit,PalestranteUpdate, PalestranteDelete, PalestranteForm, PalestranteAdd, LocalForm, LocalAdd, LocalEdit, LocalUpdate, InscricaoAdd, EventoAdd, EventoList, EventoDelete, EventoEdit, EventoUpdate, LocalList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,6 +38,7 @@ urlpatterns = [
     #Formulários (exclusões)
     path('cadastro/Evento/delete/<int:pk>', EventoDelete, name='EventoDelete'),
     path('cadastro/Palestrante/delete/<int:pk>', PalestranteDelete, name='PalestranteDelete'),
+    path('cadastro/Inscricao/delete/<int:pk>', InscritoDelete, name='InscritoDelete'),
     #Formulários (edição)
     path('cadastro/Evento/update/<int:pk>', EventoUpdate, name='EventoUpdate'),
     path('cadastro/Palestrante/update/<int:pk>', PalestranteUpdate, name='PalestranteUpdate'),
