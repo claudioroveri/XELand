@@ -128,12 +128,16 @@ def EventoList(request):
     data = {}
     data['lista'] = Evento.objects.all()
 
+    data['usuario'] = request.session['username']
+
     return render(request, 'listaEvento.html', data)
 
 def InscritoList(request, pk): 
     data = {}
     data['lista'] = Inscrito.objects.filter(evento=pk).all()
     data['evento'] = Evento.objects.filter(id=pk).get()
+
+    data['usuario'] = request.session['username']
 
     return render(request, 'listaInscrito.html', data)
 
@@ -148,13 +152,18 @@ def LocalList(request):
     r = requests.get(url, headers=token)
     data['lista'] = r.json()
 
+    data['usuario'] = request.session['username']
+
     return render(request, 'listaLocal.html', data)
 
 
 def PalestranteList(request):
     data = {}
     data['lista'] = Palestrante.objects.all()
+    
+    data['usuario'] = request.session['username']
 
+    
     return render(request, 'listaPalestrante.html', data)
 
 #Views de deleção de registros
@@ -258,8 +267,7 @@ def ValidaLogin(request):
     # Continuar aqui !!!!
     request.session['usuario_id'] = User.objects.filter(username=request.session['username']).get().pk
     data['usuario'] = request.session['username']
-    data['usuario_id'] = request.session['usuario_id']
-    data['token'] = request.session['token']
+
 
     # Caso logue com sucesso
     if r.status_code == 200:
