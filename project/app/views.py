@@ -14,6 +14,7 @@ import requests
 from rest.serializers import (MyTokenObtainPairSerializer)
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.backends import TokenBackend
+from rest_framework import status
 
 
 
@@ -141,7 +142,7 @@ def InscritoList(request, pk):
 
     return render(request, 'listaInscrito.html', data)
 
-
+# Teste com validação via JWT Token
 def LocalList(request):
     data = {}
     data['lista'] = Local.objects.all()
@@ -154,7 +155,10 @@ def LocalList(request):
 
     data['usuario'] = request.session['username']
 
-    return render(request, 'listaLocal.html', data)
+    if (r.status_code == status.HTTP_200_OK):
+        return render(request, 'listaLocal.html', data)
+    else:
+        return redirect('/Usuario/login/')
 
 
 def PalestranteList(request):
@@ -253,27 +257,29 @@ def TokenAtivo(request):
  
 
 def ValidaLogin(request):
-    
-    input_data = {'username': request.POST.get('username'),
+    try :
+        input_data = {'username': request.POST.get('username'),
             'password': request.POST.get('password') }
 
-    # Vindo de uma API REST via requisição POST
-    r = requests.post("http://localhost:8000/login/", json = input_data)
-    request.session['username'] = request.POST.get('username')
-    request.session['token'] = r.json()['access']
-    data = {}
+        # Vindo de uma API REST via requisição POST
+        r = requests.post("http://localhost:8000/login/", json = input_data)
+        request.session['username'] = request.POST.get('username')
+        request.session['token'] = r.json()['access']
+        data = {}
 
-    # Armazena o username e seu respectivo token
-    # Continuar aqui !!!!
-    request.session['usuario_id'] = User.objects.filter(username=request.session['username']).get().pk
-    data['usuario'] = request.session['username']
+        # Armazena o username, usuario_id e seu respectivo token
+        request.session['usuario_id'] = User.objects.filter(username=request.session['username']).get().pk
+        data['usuario'] = request.session['username']
 
 
-    # Caso logue com sucesso
-    if r.status_code == 200:
-       return render(request, 'index.html', data)
-    else:
-       return redirect('/Usuario/login/')
+        # Caso logue com sucesso
+        if r.status_code == 200:
+            return render(request, 'index.html', data)
+        else:
+            return redirect('/Usuario/login/')
+    except Exception as e:
+           return redirect('/Usuario/login/')
+ 
 
 
 

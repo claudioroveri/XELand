@@ -28,11 +28,11 @@
          
         </ul>
     </div>
-    <div class="collapse navbar-collapse col-4" id="navbarNav" style="font-size:10pxwidth:50px">
+    <div class="collapse navbar-collapse col-4" id="navbarNav" style="color:white">
         <ul class="navbar-nav">
         <li class="nav-item" >
             {%if usuario %} 
-                {{usuario}} (<a class="nav-link" href="/logout/" tabindex="-1" aria-disabled="true" style="color:white"> Sair </a>)
+                {{usuario}} <a  href="/logout2/" tabindex="-1" aria-disabled="true" style="color:white"> (Sair) </a></p>
             {%else%}
             <a class="nav-link" href="/Usuario/login/" tabindex="-1" aria-disabled="true"
                 style="color:white"> Login </a>
