@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+     #https://medium.com/django-rest/django-rest-framework-jwt-authentication-94bee36f2af8
     'rest_framework_simplejwt', # autenticação JWT (parte 1)
     'app',
 ]

@@ -4,17 +4,29 @@ from app.controller.EventoBean import EventoBean
 from app.controller.PalestranteBean import PalestranteBean
 from app.controller.LocalBean import LocalBean
 from app.controller.InscritoBean import InscritoBean
+from app.controller.UsuarioBean import UsuarioBean
 from app.model.Palestrante import Palestrante
 from app.model.TipoEvento import TipoEvento
 from app.model.Local import Local
 from app.model.Evento import Evento
 from app.model.Inscrito import Inscrito
 import requests
+from rest.serializers import (MyTokenObtainPairSerializer)
+from django.contrib.auth.models import User
+from rest_framework_simplejwt.backends import TokenBackend
+
 
 
 # View principal
 def Principal(request):
     return render(request, 'index.html', {})
+
+# foi criado um html customizado para criacao de usuario
+# na tabela de controle de usuario de sessao do django
+def UsuarioForm(request):
+    data = {}
+    data['form'] = UsuarioBean
+    return render(request, 'formUsuario.html', data)
 
 # Carregamento dos forms
 def TipoEventoForm(request):
@@ -111,6 +123,7 @@ def ProgramacaoList(request):
         
         return render(request, 'Programacao.html', data)
 
+# Utilizando autorização por token
 def EventoList(request): 
     data = {}
     data['lista'] = Evento.objects.all()
@@ -128,6 +141,12 @@ def InscritoList(request, pk):
 def LocalList(request):
     data = {}
     data['lista'] = Local.objects.all()
+
+    url = 'http://localhost:8000/LocalREST/'
+    valor_token = 'Bearer ' + request.session['token']
+    token = {'Authorization': valor_token}
+    r = requests.get(url, headers=token)
+    data['lista'] = r.json()
 
     return render(request, 'listaLocal.html', data)
 
@@ -212,4 +231,42 @@ def LocalUpdate(request, pk):
         return redirect('/Local/')
     else:
         print(form.errors)
+
+# Outras operações
+def TokenAtivo(request):
+        token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+        data = {'token': token}
+  
+        valid_data = TokenBackend(algorithm='HS256').decode(token,verify=True)
+        user = valid_data['user']
+        print(user)
+        return redirect('/')
+ 
+
+def ValidaLogin(request):
+    
+    input_data = {'username': request.POST.get('username'),
+            'password': request.POST.get('password') }
+
+    # Vindo de uma API REST via requisição POST
+    r = requests.post("http://localhost:8000/login/", json = input_data)
+    request.session['username'] = request.POST.get('username')
+    request.session['token'] = r.json()['access']
+    data = {}
+
+    # Armazena o username e seu respectivo token
+    # Continuar aqui !!!!
+    request.session['usuario_id'] = User.objects.filter(username=request.session['username']).get().pk
+    data['usuario'] = request.session['username']
+    data['usuario_id'] = request.session['usuario_id']
+    data['token'] = request.session['token']
+
+    # Caso logue com sucesso
+    if r.status_code == 200:
+       return render(request, 'index.html', data)
+    else:
+       return redirect('/Usuario/login/')
+
+
+
 

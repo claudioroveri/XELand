@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from app.views import Principal, ProgramacaoList, TipoEventoForm, InscricaoForm, EventoForm, InscritoList, InscritoDelete, PalestranteList, PalestranteEdit,PalestranteUpdate, PalestranteDelete, PalestranteForm, PalestranteAdd, LocalForm, LocalAdd, LocalEdit, LocalUpdate, InscricaoAdd, EventoAdd, EventoList, EventoDelete, EventoEdit, EventoUpdate, LocalList
+from app.views import Principal, ProgramacaoList, TokenAtivo, ValidaLogin, UsuarioForm, TipoEventoForm, InscricaoForm, EventoForm, InscritoList, InscritoDelete, PalestranteList, PalestranteEdit,PalestranteUpdate, PalestranteDelete, PalestranteForm, PalestranteAdd, LocalForm, LocalAdd, LocalEdit, LocalUpdate, InscricaoAdd, EventoAdd, EventoList, EventoDelete, EventoEdit, EventoUpdate, LocalList
 # JWT: Importação das rotas (parte 6)
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -33,6 +33,10 @@ urlpatterns = [
     path('cadastro/Palestrante/', PalestranteForm, name='PalestranteForm'),
     path('cadastro/Local/', LocalForm, name='LocalForm'),
     path('cadastro/Inscricao/<int:pk>', InscricaoForm, name='InscricaoForm'),
+    #Login
+    path('Usuario/login/', UsuarioForm, name='UsuarioForm'),
+    path('Usuario/login/valida/', ValidaLogin, name='ValidaLogin'),
+    path('Usuario/token/', TokenAtivo, name='TokenAtivo'),
     #Formulários (inserções)
     path('cadastro/Evento/add/', EventoAdd, name='EventoAdd'),
     path('cadastro/Local/add/', LocalAdd, name='LocalAdd'),
