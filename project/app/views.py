@@ -15,12 +15,16 @@ from rest.serializers import (MyTokenObtainPairSerializer)
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.backends import TokenBackend
 from rest_framework import status
+from rest.views import VerifyToken
+from django.http import HttpResponse
 
 
 
 # View principal
 def Principal(request):
-    return render(request, 'index.html', {})
+    data = {}
+    data['usuario'] = request.session['username']
+    return render(request, 'index.html', data)
 
 # foi criado um html customizado para criacao de usuario
 # na tabela de controle de usuario de sessao do django
@@ -102,6 +106,7 @@ def InscricaoAdd(request):
 
 # Views de listagens
 def ProgramacaoList(request):
+    if VerifyToken(request.session['refresh_token']) == True:
         lista = []
         dados = Evento.objects.filter(ativo=True).all()
 
@@ -121,54 +126,66 @@ def ProgramacaoList(request):
 
         data = {}
         data['lista'] = lista
-        
+        data['usuario'] = request.session['username']
+
         return render(request, 'Programacao.html', data)
-
-# Utilizando autorização por token
-def EventoList(request): 
-    data = {}
-    data['lista'] = Evento.objects.all()
-
-    data['usuario'] = request.session['username']
-
-    return render(request, 'listaEvento.html', data)
-
-def InscritoList(request, pk): 
-    data = {}
-    data['lista'] = Inscrito.objects.filter(evento=pk).all()
-    data['evento'] = Evento.objects.filter(id=pk).get()
-
-    data['usuario'] = request.session['username']
-
-    return render(request, 'listaInscrito.html', data)
-
-# Teste com validação via JWT Token
-def LocalList(request):
-    data = {}
-    data['lista'] = Local.objects.all()
-
-    url = 'http://localhost:8000/LocalREST/'
-    valor_token = 'Bearer ' + request.session['token']
-    token = {'Authorization': valor_token}
-    r = requests.get(url, headers=token)
-    data['lista'] = r.json()
-
-    data['usuario'] = request.session['username']
-
-    if (r.status_code == status.HTTP_200_OK):
-        return render(request, 'listaLocal.html', data)
     else:
         return redirect('/Usuario/login/')
 
+# Utilizando autorização por token
+def EventoList(request): 
+    if VerifyToken(request.session['refresh_token']) == True:
+        data = {}
+        data['lista'] = Evento.objects.all()
+
+        data['usuario'] = request.session['username']
+
+        return render(request, 'listaEvento.html', data)
+    else:
+        return redirect('/Usuario/login/') 
+
+def InscritoList(request, pk): 
+    if VerifyToken(request.session['refresh_token']) == True:
+        data = {}
+        data['lista'] = Inscrito.objects.filter(evento=pk).all()
+        data['evento'] = Evento.objects.filter(id=pk).get()
+        data['usuario'] = request.session['username']
+
+        return render(request, 'listaInscrito.html', data)
+    else:
+        return redirect('/Usuario/login/')
+
+# Teste com validação e carregamento via JWT Token
+def LocalList(request):
+    if VerifyToken(request.session['refresh_token']) == True:
+        data = {}
+        data['lista'] = Local.objects.all()
+
+        url = 'http://localhost:8000/LocalREST/'
+        valor_token = 'Bearer ' + request.session['token']
+        token = {'Authorization': valor_token}
+        r = requests.get(url, headers=token)
+        data['lista'] = r.json()
+        data['usuario'] = request.session['username']
+
+        if (r.status_code == status.HTTP_200_OK):
+            return render(request, 'listaLocal.html', data)
+        else:
+            
+            return redirect('/Usuario/login/')
+    else:
+       return redirect('/Usuario/login/') 
+
 
 def PalestranteList(request):
-    data = {}
-    data['lista'] = Palestrante.objects.all()
-    
-    data['usuario'] = request.session['username']
+    if VerifyToken(request.session['refresh_token']) == True:
+        data = {}
+        data['lista'] = Palestrante.objects.all()
+        data['usuario'] = request.session['username']
 
-    
-    return render(request, 'listaPalestrante.html', data)
+        return render(request, 'listaPalestrante.html', data)
+    else:
+       return redirect('/Usuario/login/') 
 
 #Views de deleção de registros
 def EventoDelete(request, pk):
@@ -265,6 +282,7 @@ def ValidaLogin(request):
         r = requests.post("http://localhost:8000/login/", json = input_data)
         request.session['username'] = request.POST.get('username')
         request.session['token'] = r.json()['access']
+        request.session['refresh_token'] = r.json()['refresh']
         data = {}
 
         # Armazena o username, usuario_id e seu respectivo token
@@ -274,6 +292,9 @@ def ValidaLogin(request):
 
         # Caso logue com sucesso
         if r.status_code == 200:
+            #response = HttpResponse()
+            #response.set_cookie('token', r.json()['access'])
+            #response.set_cookie('refresh_token', r.json()['refresh'])
             return render(request, 'index.html', data)
         else:
             return redirect('/Usuario/login/')

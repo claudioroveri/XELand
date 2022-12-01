@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
      #https://medium.com/django-rest/django-rest-framework-jwt-authentication-94bee36f2af8
     'rest_framework_simplejwt', # autenticação JWT (parte 1)
+    'rest_framework_simplejwt.token_blacklist', # precisa fazer migration
     'app',
 ]
 

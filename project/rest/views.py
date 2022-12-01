@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import  redirect
 import requests
+from rest_framework import status
 
 
 
@@ -28,13 +29,12 @@ class MyObtainTokenPairView(TokenObtainPairView):
 class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request):
+    def post(self, token):
         try:
-            refresh_token = request.session['token']
-            token = RefreshToken(refresh_token)
+            token = RefreshToken(token)
             token.blacklist()
             
-
+            
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             print(e)
@@ -42,6 +42,21 @@ class LogoutView(APIView):
 
 # Parei aqui !!
 def Logout(request):
-    request.session['token'] = ""
-    request.session['username'] = ""
-    return redirect('/')
+    valor_token = 'Bearer ' + request.session['token']
+    token = {'Authorization': valor_token}
+    LogoutView.post(LogoutView, request.session['refresh_token'])
+   
+    return redirect('/Usuario/login/')
+
+# Verifica a validade do token (se ele está na blacklist)
+def VerifyToken(token):
+
+    input_data = {'refresh': token}
+
+    # Vindo de uma API REST via requisição POST
+    r = requests.post("http://localhost:8000/login/refresh/", json = input_data)
+    
+    if r.status_code == status.HTTP_200_OK:
+       return True
+    else:
+       return False
